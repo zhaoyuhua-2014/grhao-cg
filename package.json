@@ -1,0 +1,27 @@
+{
+  "name": "grhao-cg",
+  "version": "1.0.0",
+  "description": "果然好仓系统",
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhaoyuhua-2014/grhao-cg.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zhaoyuhua-2014/grhao-cg/issues"
+  },
+  "homepage": "https://github.com/zhaoyuhua-2014/grhao-cg#readme",
+  "devDependencies": {
+    "grunt": "^1.0.2",
+    "grunt-cmd-concat": "^0.2.8",
+    "grunt-contrib-clean": "^1.1.0",
+    "grunt-contrib-cssmin": "^2.2.1",
+    "grunt-contrib-uglify": "^3.3.0",
+    "grunt-contrib-watch": "^1.0.0"
+  }
+}

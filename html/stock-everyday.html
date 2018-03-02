@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=750,user-scalable=0,viewport-fit=contain"/>
+	<meta content="telephone=no, address=no" name="format-detection" />
+	<meta name="full-screen" content="yes">
+	<meta name="x5-fullscreen" content="true">
+	<link rel="stylesheet" type="text/css" href="../css/css.min.css"/>
+</head>
+<body>
+<div class="body">
+	<div class="stock-everyday-page" modue-id="stock-everyday-page">
+		<div class="header-box">
+			<p class="content"><span class="arrow left"></span><span class="title"></span></p>
+		</div>
+		<div class="content-box not-footer">
+			<div class="buylist-box">
+				<div class="search-box">
+					<p class="clearfix search-content"><input type="text" placeholder="按照商品名称搜索" class="search-input"><button class="search-btn">搜索</button></p>
+				</div>
+				<div class="buylist-content">
+					<ul id="list-data-box"></ul>
+					<p class="loadMore">加载中...</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="buylistdetail-page" style="display:none">
+		<div class="header-box">
+			<p class="content"><span class="arrow left"></span>进销报表详情</p>
+		</div>
+		<div class="content-box not-footer">
+			<div class="buylistdetail-box">
+				<div class="buylistdetail-content" id="buylistdetail-data-box"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 进销记录列表 -->
+<script type="text/x-jquery-tmpl" id="list-data">
+	<li class="list">
+		<p class="line-1 clearfix"><span class="goods-name ellipsis">${goodsName}</span>
+			<span class="date-time">
+				{{if stockDate}} 
+					${stockDate.split(' ').shift()}
+				{{else}}
+					${createTime.split(' ').shift()}
+				{{/if}}
+			</span>
+		</p>
+		<p class="line-2 clearfix">
+			<span class="ellipsis">入库件数:${inNum+''+priceUnit}</span>
+		</p>
+	</li>
+</script>
+<!-- 进销详情1 -->
+<script type="text/x-jquery-tmpl" id="buylistdetail-data">
+	<p class="clearfix"><i>商品名称</i><span>${goodsName}</span></p>
+	<p class="clearfix"><i>商品编码</i><span>${goodsCode}</span></p>
+	<p class="clearfix"><i>采购入库件数</i><span>${ initBuyerNum||'--'+' 件'}</span></p>
+	<p class="clearfix"><i>采购入库重量</i><span>${initBuyerWeight||'--'+' 斤'}</span></p>
+	<p class="clearfix"><i>退货入库件数</i><span>${initRefundNum||'--'+' 件'}</span></p>
+	<p class="clearfix"><i>退货入库重量</i><span>${initRefundWeight||'--'+' 斤'}</span></p>
+	<p class="clearfix"><i>入库总件数</i><span>${inNum||'--' +' 件'}</span></p>
+	<p class="clearfix"><i>入库总重量</i><span>${inWeight||'--'+' 斤'}</span></p>
+	<p class="clearfix"><i>订单出库件数</i><span>${orderSellNum||'--'+ ' 件'}</span></p>
+	<p class="clearfix"><i>订单出库重量</i><span>${orderSellWeight||'--' }</span></p>
+	<p class="clearfix"><i>仓库销售件数</i><span>${stockSellNum||'--'+' 件' }</span></p>
+	<p class="clearfix"><i>仓库销售重量</i><span>${stockSellWeight||'--'+' 斤'}</span></p>
+	<p class="clearfix"><i>报损件数</i><span>${lossNum||'--'+' 件'}</span></p>
+	<p class="clearfix"><i>报损重量</i><span>${lossWeight||'--'+' 斤' }</span></p>
+	<p class="clearfix"><i>出库宁波件数</i><span>${nbNum||'--'+ ' 件' }</span></p>
+	<p class="clearfix"><i>出库宁波重量</i><span>${nbWeight||'--'+' 斤' }</span></p>
+	<p class="clearfix"><i>出库总件数</i><span>${outNum||'--'+ ' 件' }</span></p>
+	<p class="clearfix"><i>出库总重量</i><span>${outWeight||'--'+' 斤' }</span></p>
+	<p class="clearfix"><i>当日库存件数</i><span>${beforeNum||'--'+ ' 件' }</span></p>
+	<p class="clearfix"><i>当日库存重量</i><span>${beforeWeight||'--'+' 斤' }</span></p>
+	<p class="clearfix"><i>昨日库存件数</i><span>${stockNum||'--' }</span></p>
+	<p class="clearfix"><i>昨日库存重量</i><span>${stockWeight||'--'+' 斤' }</span></p>
+	<p class="clearfix"><i>库存更新件数</i><span>${changeNum||'--'+ ' 件' }</span></p>
+	<p class="clearfix"><i>库存更新重量</i><span>${changeWeight||'--'+' 斤' }</span></p>
+	<p class="clearfix"><i>单价单位</i><span>${priceUnit||'--' }</span></p>
+	<p class="clearfix"><i>站点编码</i><span>${websiteNode||'--' }</span></p>
+	<p class="clearfix"><i>站点名称</i><span>${websiteName||'--' }</span></p>
+	<p class="clearfix"><i>统计时间</i><span>${createTime}</span></p>
+	<p class="clearfix"><i>备注</i><span>${stockNote}</span></p>
+</script>
+<!-- 进销详情2 -->
+<script type="text/x-jquery-tmpl" id="buylistdetail-data2">
+	<p class="clearfix"><i>入库件数</i><span>${inNum||' --'+ ' 件' }</span></p>
+	<p class="clearfix"><i>入库重量</i><span>${inWeight||'--'+' 斤' }</span></p>
+	<p class="clearfix"><i>出库件数</i><span>${outNum||'--'+ ' 件' }</span></p>
+	<p class="clearfix"><i>出库重量</i><span>${outWeight||'--'+' 斤' }</span></p>
+	<p class="clearfix"><i>库存更新件量</i><span>${changeNum||'--'+ ' 件' }</span></p>
+	<p class="clearfix"><i>库存更新重量</i><span>${changeWeight||'--'+' 斤' }</span></p>
+	<p class="clearfix"><i>站点名称</i><span>${websiteName||'--' }</span></p>
+	<p class="clearfix"><i>库存时间</i><span>${stockDate}</span></p>
+	<p class="clearfix"><i>创建时间</i><span>${createTime}</span></p>
+</script>
+<script src="../seajs/2.1.1/sea.js"></script>
+<script>
+	seajs.config({
+	    base : '../dest/',
+	    alias: {
+	        'common' : 'common.js',
+	        'adapt' : 'adapt.js',
+	        'everyday' : 'everyday.js'
+	    },
+	    preload: ['adapt']
+	});
+	seajs.use('everyday',function( stock ){
+		stock.init();
+	});
+</script>
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>退货待审核</title>
+	<meta name="viewport" content="width=750,user-scalable=0,viewport-fit=contain"/>
+	<meta content="telephone=no, address=no" name="format-detection" />
+	<meta name="full-screen" content="yes">
+	<meta name="x5-fullscreen" content="true">
+	<link rel="stylesheet" type="text/css" href="../css/css.min.css"/>
+</head>
+<body>
+<div class="body">
+	<div class="stock-reportloss-page stock-returngoods-page" modue-id="stock-returngoods">
+		<div class="header-box">
+			<p class="content"><span class="arrow left"></span>退货待审核<span class="add-newbuy" id="add-newbuy"></span></p>
+		</div>
+		<div class="content-box not-footer">
+			<div class="weighed-box">
+				<div class="search-box">
+					<p class="clearfix search-content"><input type="text" placeholder="按照商品名称搜索" class="search-input"><button class="search-btn">搜索</button></p>
+				</div>
+				<div class="weighed-content">
+					<ul id="goods_refund_list-data-box"></ul>
+					<p class="loadMore">加载中...</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="buylistdetail-page" style="display:none">
+		<div class="header-box">
+			<p class="content"><span class="arrow left"></span>退货待审核详情</p>
+		</div>
+		<div class="content-box not-footer">
+			<div class="buylistdetail-box">
+				<div class="buylistdetail-content" id="buylistdetail-data-box"></div>
+			</div>
+		</div>
+	</div>
+	<div class="weighed-editor-page" style="display:none">
+		<div class="header-box">
+			<p class="content"><span class="arrow left"></span><span class="title">退货待审核编辑</span></p>
+		</div>
+		<div class="content-box not-footer">
+			<div class="weighed-editor-box">
+				<div class="content" id="stock-returngoods-edit-data-box"></div>
+			</div>
+		</div>
+	</div>
+	<div class="newbuylist-page" style="display:none">
+		<div class="header-box">
+			<p class="content"><span class="arrow left"></span>新增退货记录</p>
+		</div>
+		<div class="content-box not-footer">
+			<div class="newbuylist-box">
+				<div class="newbuylist-content">
+					<ul>
+						<li class="clearfix pick" data-search="buyer-list">
+							<span class="tit">退货商家</span>
+							<input type="text" placeholder="请选择退货商家" disabled="true" >
+						</li>
+						<li class="clearfix pick" data-search="supplier-list">
+							<span class="tit">所属订单</span>
+							<input type="text" placeholder="请选择所属订单" disabled="true">
+						</li>
+						<li class="clearfix pick" data-search="goods-list">
+							<span class="tit">商品名称</span>
+							<input type="text" placeholder="请选择商品">
+						</li>
+						<li class="clearfix">
+							<span class="tit" style="width:180px">退还商品件数</span>
+							<input type="number" placeholder="请填写退还商品件数" style="width:430px" name="initNum" class="serialize">
+							<span class="unit">件</span>
+						</li>
+						<li class="clearfix">
+							<span class="tit" style="width:180px">退还商品重量</span>
+							<input type="number" placeholder="请选填写退还商品重量" style="width:430px" name="initWeight" class="serialize">
+							<span class="unit">斤</span>						
+						</li>
+						<li class="clearfix">
+							<span class="tit">备注</span>
+							<textarea placeholder="请输入需要的备注请输入需要的备注" name="note" class="serialize"></textarea>
+						</li>
+					</ul>
+					<p class="btn" id="submit-btn1">保存</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="search-page" style="display:none;" module-id="searchlist">
+		<div class="header-box">
+			<p class="content"><span class="arrow left"></span><input type="text" placeholder="请输入搜索的商品名称" id="data-checkout"><button id="checkout-btn">搜索</button></p>
+		</div>
+		<div class="content-box not-footer">
+			<div class="search-box">
+				<div class="search-content">
+					<ul class="goods-list" id="goods-list-data-box" style="display:none" data-page="goods"></ul>
+					<ul class="buyer-list" id="buyer-list-data-box" style="display:none" data-page="buyer"></ul>
+					<ul class="supplier-list" id="supplier-list-data-box" style="display:none" data-page="supplier"></ul>
+					<p class="loadMore">加载中...</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 退货记录列表 -->
+<script type="text/x-jquery-tmpl" id="goods_refund_list-data">
+	<li class="list">
+		<p class="line-1 clearfix"><span class="goods-name ellipsis">${goodsName}</span><span class="date-time">${goodsRefundTime.split(' ').shift()}</span></p>
+		<p class="line-2 clearfix">
+			<span class="ellipsis">差额数量:${outNum-realityNum+''+goodsRefundUnit}</span>
+			<span class="ellipsis" data-shopEntity="${shopEntity}">商家名称:${shopEntityName}</span>
+		</p>
+			<span class="btn"></span>
+	</li>
+</script>
+<!-- 退货记录列表详情 -->
+<script type="text/x-jquery-tmpl" id="buylistdetail-data">
+	<p class="clearfix"><i>所属订单编码</i><span>${goodsOrderCode}</span></p>
+	<p class="clearfix"><i>退货商品名称</i><span>${goodsName}</span></p>
+	<p class="clearfix"><i>退货商品编码</i><span>${goodsCode}</span></p>
+	<p class="clearfix"><i>仓库出货量</i><span>${outNum}</span></p>
+	<p class="clearfix"><i>商家实收量</i><span>${realityNum}</span></p>
+	<p class="clearfix"><i>退还商品量</i><span>${goodsRefundNum}</span></p>
+	<p class="clearfix"><i>单价单位</i><span>${goodsRefundUnit}</span></p>
+	<p class="clearfix"><i>状态</i><span>${['已删除','申诉失败','待审核','审核成功'][status+2]}</span></p>
+	<p class="clearfix"><i>业务员</i><span>${staffName}</span></p>
+	<p class="clearfix"><i>业务员手机号</i><span>${staffMobile}</span></p>
+	<p class="clearfix"><i>配送司机名称</i><span>${postManName}</span></p>
+	<p class="clearfix"><i>司机手机号</i><span>${postManMobile}</span></p>
+	<p class="clearfix"><i>审核人</i><span>${auditor}</span></p>
+	<p class="clearfix"><i>审核时间</i><span>${checkTime}</span></p>
+	<p class="clearfix"><i>站点编码</i><span>${ websiteNode}</span></p>
+	<p class="clearfix"><i>站点名称</i><span>${websiteName}</span></p>
+	<p class="clearfix"><i>退货时间</i><span>${goodsRefundTime}</span></p>
+	<p class="clearfix"><i>备注</i><span>${note}</span></p>
+</script>
+<!-- 退货记录编辑 -->
+<script type="text/x-jquery-tmpl" id="stock-returngoods-edit-data">
+	<div class="data-disabled">
+		<p class="clearfix"><i>商品名称</i><span class="txt ellipsis">${goodsName}</span></p>
+		<p class="clearfix"><i>出库数量</i><span class="txt ellipsis">${outNum}</span></p>
+		<p class="clearfix"><i>实收数量</i><span class="txt ellipsis">${realityNum}</span></p>
+		<p class="clearfix"><i>差额数量</i><span class="txt ellipsis">${outNum-realityNum+''+goodsRefundUnit}</span></p>
+		<p class="clearfix"><i>所属订单</i><span class="txt ellipsis">${goodsOrderCode}</span></p>
+		<p class="clearfix"><i>配送司机</i><span class="txt ellipsis">${postManName}</span></p>
+		<p class="clearfix"><i>业务员</i><span class="txt ellipsis">${staffName}</span></p>
+	</div>
+	<div class="data-editor">
+		<ul>
+			<li class="clearfix slideDown" style="height:auto">   
+				<p style="height:80px;"><span class="tit">审核</span><input type="text" placeholder="请选择审核否通过" disabled="true" class="serialize" name="status"></p>   
+				<div style="display:none">
+					<p class="p1">通过</p>    
+					<p class="p1">不通过</p>   
+				</div>  
+			</li>
+			<input type="hidden" name="method" class="serialize" value="goods_refund_check">
+			<li class="clearfix">
+				<span class="tit">备注</span>
+				<textarea placeholder="请输入需要的备注请输入需要的备注" class="serialize" name="note"></textarea>
+			</li>
+		</ul>
+		<p class="btn" style="margin-bottom:50px;" id="submit-btn">保存</p>
+	</div>
+</script>
+<!-- 采购商品 -->
+<script type="text/x-jquery-tmpl" id="goods-list-data">
+	<li class="ellipsis" data-id="${id}" data-name="${goodsName}">${goodsName + '&nbsp;&nbsp;' + buyCount + '件&nbsp;&nbsp;' + costMoney + '元'}</li>
+</script>
+<!-- 退货商家 -->
+<script type="text/x-jquery-tmpl" id="buyer-list-data">
+	<li class="ellipsis" data-id="${id}" data-name="${firmName}">${firmName}</li>
+</script>
+<!-- 所属订单 -->
+<script type="text/x-jquery-tmpl" id="supplier-list-data">
+	<li class="ellipsis" data-id="${orderCode}" data-name="${orderCode}">${orderCode}</li>
+</script>
+<script src="../seajs/2.1.1/sea.js"></script>
+<script>
+	seajs.config({
+	    base : '../dest/',
+	    alias: {
+	        'common' : 'common.js',
+	        'adapt' : 'adapt.js',
+	        'returngoods' : 'returngoods.js'
+	    },
+	    preload: ['adapt']
+	});
+	seajs.use('returngoods',function( stock ){
+		stock.init();
+	});
+</script>
+</body>
+</html>

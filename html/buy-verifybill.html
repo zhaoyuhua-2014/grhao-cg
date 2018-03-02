@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>申诉核账单</title>
+	<meta name="viewport" content="width=750,user-scalable=0,viewport-fit=contain"/>
+	<meta content="telephone=no, address=no" name="format-detection" />
+	<meta name="full-screen" content="yes">
+	<meta name="x5-fullscreen" content="true">
+	<link rel="stylesheet" type="text/css" href="../css/css.min.css"/>
+</head>
+<body>
+<div class="body">
+	<div class="verifybill-page" modue-id="verifybill">
+		<div class="header-box">
+			<p class="content"><span class="arrow left"></span>申诉核账单</p>
+		</div>
+		<div class="content-box not-footer">
+			<div class="verifybill-box">
+				<div class="search-box">
+					<p class="clearfix search-content"><input type="text" placeholder="按照商品名称搜索" class="search-input"><button class="search-btn">搜索</button></p>
+				</div>
+				<div class="verifybill-content">
+					<ul id="check_bill_list-data-box"></ul>
+					<p class="loadMore">加载中...</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="buylistdetail-page" style="display:none">
+		<div class="header-box">
+			<p class="content"><span class="arrow left"></span><span class="title">申诉核账单详情</span></p>
+		</div>
+		<div class="content-box not-footer">
+			<div class="buylistdetail-box">
+				<div class="buylistdetail-content" id="buylistdetail-data-box"></div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 核账单列表 -->
+<script type="text/x-jquery-tmpl" id="check_bill_list-data">
+	<li class="list">
+		<p class="line-1 clearfix"><span class="goods-name ellipsis">${goodsName}</span><span class="date-time">${buyDate.split(' ').shift()}</span></p>
+		<p class="line-2 clearfix">
+			<span class="ellipsis">采购员:${buyerName}</span>
+			<span class="ellipsis">实采购量:${realBuyNum}${priceUnit}</span>
+			<span class="ellipsis">入库件数:${ instockNum}${priceUnit}</span>
+		</p>
+	</li>
+</script>
+<script type="text/x-jquery-tmpl" id="buylistdetail-data">
+	<p class="clearfix"><i>商品名称</i> <span class="ellipsis">${goodsName}</span></p>
+	<p class="clearfix"><i>商品编码</i> <span class="ellipsis">${goodsCode}</span></p>
+	<p class="clearfix"><i>预采购量</i> <span class="ellipsis">${preBuyNum}</span></p>
+	<p class="clearfix"><i>昨日报价</i> <span class="ellipsis">${yestodayQuote}</span></p>
+	<p class="clearfix"><i>实采单价</i> <span class="ellipsis">${realBuyPrice}</span></p>
+	<p class="clearfix"><i>实采购量</i> <span class="ellipsis">${realBuyNum}</span></p>
+	<p class="clearfix"><i>实采重量</i> <span class="ellipsis">${realBuyWeight}</span></p>
+	<p class="clearfix"><i>实采总价</i> <span class="ellipsis">${realBuyMoney}</span></p>
+	<p class="clearfix"><i>入库件数</i> <span class="ellipsis">${instockNum}</span></p>
+	<p class="clearfix"><i>入库重量</i> <span class="ellipsis">${instockWeight}</span></p>
+	<p class="clearfix"><i>核算总价</i> <span class="ellipsis">${checkMoney}</span></p>
+	<p class="clearfix"><i>采购员姓名</i> <span class="ellipsis">${buyerName}</span></p>
+	<p class="clearfix"><i>站点名称</i> <span class="ellipsis">${websiteName}</span></p>
+	<p class="clearfix"><i>采购日期</i> <span class="ellipsis">${buyDate}</span></p>
+	<p class="clearfix"><i>核算人</i> <span class="ellipsis">${checker}</span></p>
+	<p class="clearfix"><i>创建人姓名</i> <span class="ellipsis">${buyerName}</span></p>
+	<p class="clearfix"><i>创建时间</i> <span class="ellipsis">${createTime}</span></p>
+</script>
+
+<script src="../seajs/2.1.1/sea.js"></script>
+<script>
+	seajs.config({
+	    base : '../dest/',
+	    alias: {
+	        'common' : 'common.js',
+	        'adapt' : 'adapt.js',
+	        'verifybill' : 'verifybill.js',
+	    },
+	    preload: ['adapt']
+	});
+	seajs.use('verifybill',function( stock ){
+		stock.init();
+	});
+</script>
+</body>
+</html>

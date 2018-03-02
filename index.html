@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>登录</title>
+	<meta name="viewport" content="width=750,user-scalable=0"/>
+	<meta content="telephone=no, address=no" name="format-detection" />
+	<meta name="full-screen" content="yes">
+	<meta name="x5-fullscreen" content="true">
+	<link rel="stylesheet" type="text/css" href="css/css.min.css"/>
+</head>
+<body>
+<div class="body">
+	<div class="login-page" style="display:none">
+		<div class="header-box">
+			<p class="content">登录</p>
+		</div>
+		<div class="content-box not-footer">
+			<div class="login-box" id="login-box">
+				<p class="name-box clearfix"><label for="username"></label><input type="tel" id="username" placeholder="手机号"></p>
+				<p class="pass-box clearfix"><label for="pass"></label><input type="password" id="pass" placeholder="任意6个以上字符"></p>
+				<p class="btn" id="btn">登录</p>
+			</div>
+		</div>
+	</div>
+	<div class="manager-page">
+		<div class="header-box">
+			<p class="content">采购管理</p>
+		</div>
+		<div class="content-box">
+			<div class="buymanager-box">
+				<ul class="buymanager-list-1">
+					<li><a href="javascript:;" class="tit">采购管理</a></li>
+					<li data-url="html/buy-buylist.html" data-index="0"><a href="javascript:;">采购单</a></li>
+					<li data-url="html/buy-buylist.html" data-index="1"><a href="javascript:;">今日采购单</a></li>
+					<li data-url="html/buy-weighed.html" data-index="2"><a href="javascript:;">待称重采购单</a></li>
+					<li data-url="html/buy-weighed.html" data-index="3"><a href="javascript:;">已称重采购单</a></li>
+					<li data-url="html/buy-verifybill.html" data-index="4"><a href="javascript:;">申诉核账单</a></li>
+				</ul>
+			</div>
+			<div class="buymanager-box">
+				<ul class="buymanager-list-1">
+					<li><a href="###" class="tit">商品更新记录</a></li>
+					<li data-url="html/buy-update.html" data-index="5"><a href="javascript:;">待审上新记录</a></li>
+					<li data-url="html/buy-update.html" data-index="6"><a href="javascript:;">待审更新记录</a></li>
+				</ul>
+			</div>
+			<div class="buymanager-box">
+				<ul class="buymanager-list-1">
+					<li><a href="javascript:;" class="tit">仓库库存管理</a></li>
+					<li data-url="html/stock-stockgoods.html" data-index="7"><a href="javascript:;">库存商品管理</a></li>
+					<li data-url="html/stock-reportloss.html" data-index="8"><a href="javascript:;">报损记录</a></li>
+					<li data-url="html/stock-stockdeal.html" data-index="9"><a href="javascript:;">仓库处理记录</a></li>
+					<li data-url="html/stock-returngoods.html" data-index="10"><a href="javascript:;">退货待审核</a></li>
+				</ul>
+				<ul class="buymanager-list-2">
+					<li><a href="javascript:;" class="tit">库存进销报表</a></li>
+					<li data-url="html/stock-everyday.html" data-index="11"><a href="javascript:;">每月进销报表</a></li>
+					<li data-url="html/stock-everyday.html" data-index="12"><a href="javascript:;">昨日进销报表</a></li>
+					<li data-url="html/stock-everyday.html" data-index="13"><a href="javascript:;">历史进销报表</a></li>
+				</ul>
+			</div>
+			<div class="buymanager-box">
+				<ul class="buymanager-list-1" id="userInfo-data-box"></ul>
+				<p class="login-out" id="login-out">退出登录</p>
+			</div>
+		</div>
+		<div class="footer-box">
+			<ul>
+				<li class="actived" >采购</li>
+				<li>更新</li>
+				<li>库存</li>
+				<li>我</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<!-- 退货记录列表详情 -->
+<script type="text/x-jquery-tmpl" id="userInfo-data">
+	<li><a href="javascript:;" class="tit">我</a></li>
+	<li data-index="13"><a href="javascript:;"><span class="txt1">姓名</span><span class="txt2">${name}</span></a></li>
+	<li data-index="14"><a href="javascript:;"><span class="txt1">所属站点</span><span class="txt2">${websiteName}</span></a></li>
+	<li data-index="15"><a href="javascript:;"><span class="txt1">所属站点编码</span><span class="txt2">${websiteNode}</span></a></li>
+	<li data-index="16" id="clearCached" style="margin-top:20px;"><a href="javascript:;" style="background:url(img/2.png) 92% 50%  no-repeat" ><span class="txt1">清缓存</span></a></li>
+</script>
+<script src="seajs/2.1.1/sea.js"></script>
+<script>
+	seajs.config({
+	    base : 'dest/',
+	    alias: {
+	        'common' : 'common.js',
+	        'adapt' : 'adapt.js',
+	        'home' : 'home.js',
+	    },
+	    preload: ['adapt']
+	});
+	seajs.use('home',function( stock ){
+		stock.init();
+	});
+</script>
+</body>
+</html>

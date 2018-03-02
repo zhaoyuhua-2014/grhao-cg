@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>仓库处理</title>
+	<meta name="viewport" content="width=750,user-scalable=0,viewport-fit=contain"/>
+	<meta content="telephone=no, address=no" name="format-detection" />
+	<meta name="full-screen" content="yes">
+	<meta name="x5-fullscreen" content="true">
+	<link rel="stylesheet" type="text/css" href="../css/css.min.css"/>
+</head>
+<body>
+<div class="body">
+	<div class="weighed-page stock-reportloss-page" modue-id="stock-stockdeal">
+		<div class="header-box">
+			<p class="content"><span class="arrow left"></span>仓库处理<span class="add-newbuy" id="add-newbuy"></span></p>
+		</div>
+		<div class="content-box not-footer">
+			<div class="weighed-box">
+				<div class="search-box">
+					<p class="clearfix search-content"><input type="text" placeholder="按照商品名称搜索" class="search-input"><button class="search-btn">搜索</button></p>
+				</div>
+				<div class="weighed-content">
+					<ul id="stock_sell_list-data-box"></ul>
+					<p class="loadMore">加载中...</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="buylistdetail-page" style="display:none">
+		<div class="header-box">
+			<p class="content"><span class="arrow left"></span>仓库处理详情</p>
+		</div>
+		<div class="content-box not-footer">
+			<div class="buylistdetail-box">
+				<div class="buylistdetail-content" id="buylistdetail-data-box"></div>
+				<p class="checkBtns"><span class="checkBtn pass" data-api="stock_sell_is_check">审核通过</span><span class="checkBtn unpass" data-api="stock_sell_not_check">审核不通过</span></p>
+			</div>
+		</div>
+	</div>
+	<div class="newbuylist-page" style="display:none">
+		<div class="header-box">
+			<p class="content"><span class="arrow left"></span>新建仓库处理记录</p>
+		</div>
+		<div class="content-box not-footer">
+			<div class="newbuylist-box">
+				<div class="newbuylist-content">
+					<ul id="stock_sell_add-data-box">
+						
+						<li class="clearfix">
+							<span class="tit">城市站点</span>
+							<input type="text" placeholder="请选择站点" disabled="true" id="website-city">
+						</li>
+						<li class="clearfix pick mark" data-search="goods-list">
+							<span class="tit">商品名称</span>
+							<input type="text" placeholder="请选择商品" disabled="true">
+						</li>
+						<li class="clearfix">
+							<span class="tit">出货重量</span>
+							<input type="number" placeholder="请输入出货重量" class="serialize" name="sellWeight">
+							<span class="unit">斤</span>
+						</li>
+						<li class="clearfix">
+							<span class="tit">出货件数</span>
+							<input type="number" placeholder="请输入出货件数" class="serialize" name="sellNum">
+							<span class="unit">件</span>
+						</li>
+						<li class="clearfix mark">
+							<span class="tit">商品原售价</span>
+							<input type="number" placeholder="输入商品原售价" class="serialize" name="price">
+							<span class="unit">元</span>
+						</li>
+						<li class="clearfix mark">
+							<span class="tit">商品现售价</span>
+							<input type="number" placeholder="请输入商品现售价" class="serialize" name="sellPrice">
+							<span class="unit">元</span>
+						</li>
+						<li class="clearfix">
+							<span class="tit">出售金额</span>
+							<input type="number" placeholder="请输入出售金额" class="serialize" name="sellMoney">
+							<span class="unit">元</span>
+						</li>
+						<li class="clearfix">
+							<span class="tit">备注</span>
+							<textarea placeholder="请输入需要的备注请输入需要的备注" class="serialize" name="note"></textarea>
+						</li>
+					</ul>
+					<p class="btn" id="submit-btn" style="margin-bottom:50px">保存</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="search-page" style="display:none;" module-id="searchlist">
+		<div class="header-box">
+			<p class="content"><span class="arrow left"></span><input type="text" placeholder="请输入搜索的商品名称" id="data-checkout"><button id="checkout-btn">搜索</button></p>
+		</div>
+		<div class="content-box not-footer">
+			<div class="search-box">
+				<div class="search-content">
+					<ul class="city-list" id="city-list-data-box" style="display:none" data-page="city"></ul>
+					<ul class="goods-list" id="goods-list-data-box" style="display:none" data-page="goods"></ul>
+					<p class="loadMore">加载中...</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 仓库处理记录列表 -->
+<script type="text/x-jquery-tmpl" id="stock_sell_list-data">
+	<li class="list">
+		<p class="line-1 clearfix"><span class="goods-name ellipsis">${goodsName}</span><span class="date-time">${createTime.split(' ').shift()}</span></p>
+		<p class="line-2 clearfix">
+			<span class="ellipsis">出货类型:${ ['原价卖出','折扣卖出','报损卖出'][sellType-1] }</span>
+			<span class="ellipsis">审核人:${auditor}</span>
+			<span class="ellipsis">商品利润:${profit}</span>
+		</p>
+		<span class="btn delete-btn"></span>
+	</li>
+</script>
+<!-- 仓库处理记录列表详情 -->
+<script type="text/x-jquery-tmpl" id="buylistdetail-data">
+	<p class="clearfix"><i>商品名称</i> <span>${goodsName}</span></p>
+	<p class="clearfix"><i>商品编码</i> <span>${goodsCode}</span></p>
+	<p class="clearfix"><i>出货类型</i> <span>${ ['原价卖出','折扣卖出','报损卖出'][sellType-1] }</span></p>
+	<p class="clearfix"><i>仓库出货件数</i> <span>${sellNum}</span></p>
+	<p class="clearfix"><i>仓库出货重量</i> <span>${sellWeight}</span></p>
+	<p class="clearfix"><i>原库存件数</i> <span>${formerStockNum}</span></p>
+	<p class="clearfix"><i>原库存重量</i> <span>${formerStockWeight}</span></p>
+	<p class="clearfix"><i>商品原价</i> <span>${price}</span></p>
+	<p class="clearfix"><i>商品售价</i> <span>${sellPrice}</span></p>
+	<p class="clearfix"><i>状态</i> <span>${['审核未通过','未审核','审核通过'][status+1]}</span></p>
+	<p class="clearfix"><i>审核人</i> <span>${auditor}</span></p>
+	<p class="clearfix"><i>单价单位</i> <span>${priceUnit}</span></p>
+	<p class="clearfix"><i>站点编码</i> <span>${websiteNode}</span></p>
+	<p class="clearfix"><i>站点名称</i> <span>${websiteName}</span></p>
+	<p class="clearfix"><i>出库目的地</i> <span>${outCityName}</span></p>
+	<p class="clearfix"><i>创建人</i> <span>${creator}</span></p>
+	<p class="clearfix"><i>创建时间</i> <span>${createTime}</span></p>
+	<p class="clearfix"><i>备注</i> <span>${note}</span></p>
+</script>
+<!-- 城市站点 -->
+<script type="text/x-jquery-tmpl" id="city-list-data">
+	<li class="ellipsis" data-id="${websiteNode}">${websiteName}</li>
+</script>
+<!-- 采购商品 -->
+<script type="text/x-jquery-tmpl" id="goods-list-data">
+	<li class="ellipsis" data-id="${id}">${goodsName}</li>
+</script>
+<script src="../seajs/2.1.1/sea.js"></script>
+<script>
+	seajs.config({
+	    base : '../dest/',
+	    alias: {
+	        'common' : 'common.js',
+	        'adapt' : 'adapt.js',
+	        'stockdeal' : 'stockdeal.js'
+	    },
+	    preload: ['adapt']
+	});
+	seajs.use('stockdeal',function( stock ){
+		stock.init()
+	});
+</script>
+</body>
+</html>

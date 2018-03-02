@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>采购单</title>
+	<meta name="viewport" content="width=750,user-scalable=0,viewport-fit=contain"/>
+	<meta content="telephone=no, address=no" name="format-detection" />
+	<meta name="full-screen" content="yes">
+	<meta name="x5-fullscreen" content="true">
+	<link rel="stylesheet" type="text/css" href="../css/css.min.css"/>
+</head>
+<body>
+<div class="body">
+	<div class="buylist-page" modue-id="buylist" id="buylist-page">
+		<div class="header-box">
+			<p class="content"><span class="arrow left"></span><span class="header-title"></span><span class="add-newbuy" id="add-newbuy"></span></p>
+		</div>
+		<div class="content-box not-footer">
+			<div class="buylist-box">
+				<div class="search-box">
+					<p class="clearfix search-content"><input type="text" placeholder="按照商品名称搜索" class="search-input"><button class="search-btn">搜索</button></p>
+				</div>
+				<div class="buylist-content">
+					<ul id="buyer_bill_list-data-box"></ul>
+				</div>
+				<p class="loadMore">加载中...</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="buylistdetail-page" style="display:none">
+		<div class="header-box">
+			<p class="content"><span class="arrow left"></span>商品详情</p>
+		</div>
+		<div class="content-box not-footer">
+			<div class="buylistdetail-box">
+				<div class="buylistdetail-content" id="buylistdetail-data-box"></div>
+			</div>
+		</div>
+	</div>
+	<div class="newbuylist-page" style="display:none">
+		<div class="header-box">
+			<p class="content"><span class="arrow left"></span>新建采购单</p>
+		</div>
+		<div class="content-box not-footer">
+			<div class="newbuylist-box">
+				<div class="newbuylist-content">
+					<ul>
+						<li class="clearfix">
+							<span class="tit">城市站点</span>
+							<input type="text" placeholder="请选择站点" disabled="true" id="website-city">
+						</li>
+						<li class="clearfix pick mark" data-search="goods-list">
+							<span class="tit">商品名称</span>
+							<input type="text" placeholder="请选择商品" disabled="true">
+						</li>
+						<li class="clearfix">
+							<span class="tit">昨日报价</span>
+							<input type="number" placeholder="请输入报价" id="json-yestodayQuote" name="yestodayQuote">
+							<span class="unit">元</span>
+						</li>
+						<li class="clearfix mark">
+							<span class="tit">预采购量</span>
+							<input type="number" placeholder="请输入采购量" id="json-preBuyNum" name="preBuyNum">
+							<span class="unit">件</span>
+						</li>
+						<li class="clearfix pick mark"  data-search="buyer-list">
+							<span class="tit">实采购员</span>
+							<input type="text" placeholder="请选择采购员" disabled="true">
+						</li>
+						<li class="clearfix pick" data-search="supplier-list">
+							<span class="tit">预供应商</span>
+							<input type="text" placeholder="请选择预供应商" disabled="true">
+						</li>
+						<li class="clearfix">
+							<span class="tit">备注</span>
+							<textarea placeholder="请输入需要的备注" id="json-note" name="note"></textarea>
+						</li>
+					</ul>
+					<p class="btn" id="submit-btn">保存</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="search-page" style="display:none;" module-id="searchlist">
+		<div class="header-box">
+			<p class="content"><span class="arrow left"></span><input type="text" placeholder="请输入搜索的商品名称" id="data-checkout"><button id="checkout-btn">搜索</button></p>
+		</div>
+		<div class="content-box not-footer">
+			<div class="search-box">
+				<div class="search-content">
+					<ul class="city-list" id="city-list-data-box" style="display:none" data-page="city"></ul>
+					<ul class="goods-list" id="goods-list-data-box" style="display:none" data-page="goods"></ul>
+					<ul class="buyer-list" id="buyer-list-data-box" style="display:none" data-page="buyer"></ul>
+					<ul class="supplier-list" id="supplier-list-data-box" style="display:none" data-page="supplier"></ul>
+					<p class="loadMore">加载中...</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- 采购单列表 -->
+<script type="text/x-jquery-tmpl" id="buyer_bill_list-data">
+<li class="list">
+	<p class="line-1 clearfix"><span class="goods-name ellipsis">${goodsName}</span><span class="date-time">${buyDate.split(' ').shift()}</span></p>
+	<p class="line-2 clearfix">
+		<span class="ellipsis">预采量:${realBuyNum+' ' + priceUnit}</span>
+		<span class="ellipsis">实采员:${buyerName}</span>
+		<span class="ellipsis">预供应商:${preSupplierName}</span>
+	</p>
+</li>
+</script>
+<!-- 采购单详情 -->
+<script type="text/x-jquery-tmpl" id="buylistdetail-data">
+	<p class="clearfix"><i>商品名称</i><span>${goodsName}</span></p>
+	<p class="clearfix"><i>商品编码</i><span>${goodsCode}</span></p>
+	<p class="clearfix"><i>预采购量</i><span>${preBuyNum+' '+priceUnit}</span></p>
+	<p class="clearfix"><i>昨日报价</i><span>${yestodayQuote+' '+'元'}</span></p>
+	<p class="clearfix"><i>实采单价</i><span>${realBuyPrice+' 元/'+priceUnit}</span></p>
+	<p class="clearfix"><i>实采购量</i><span>${realBuyNum}</span></p>
+	<p class="clearfix"><i>实采重量</i><span>${realBuyWeight+' 斤'}</span></p>
+	<p class="clearfix"><i>实采总价</i><span>${realBuyMoney+' 元'}</span></p>
+	<p class="clearfix"><i>入库件数</i><span>${instockNum+' 件'}</span></p>
+	<p class="clearfix"><i>入库重量</i><span>${instockWeight||'--'+' 斤'}</span></p>
+	<p class="clearfix"><i>核算总价</i><span>${checkMoney||'--'+' 元'}</span></p>
+	<p class="clearfix"><i>采购员姓名</i><span>${buyerName}</span></p>
+	<p class="clearfix"><i>预供应商</i><span>${preSupplierName}</span></p>
+	<p class="clearfix"><i>站点名称</i><span>${websiteName}</span></p>
+	<p class="clearfix"><i>采购日期</i><span>${buyDate}</span></p>
+	<p class="clearfix"><i>核算人</i><span>${checkerName}</span></p>
+	<p class="clearfix"><i>创建人姓名</i><span>${buyerName}</span></p>
+	<p class="clearfix"><i>创建时间</i><span>${createTime}</span></p>
+</script>
+<!-- 城市站点 -->
+<script type="text/x-jquery-tmpl" id="city-list-data">
+	<li class="ellipsis" data-id="${websiteNode}">${websiteName}</li>
+</script>
+<!-- 采购商品 -->
+<script type="text/x-jquery-tmpl" id="goods-list-data">
+	<li class="ellipsis" data-id="${id}">${goodsName}</li>
+</script>
+<!-- 采购员 -->
+<script type="text/x-jquery-tmpl" id="buyer-list-data">
+	<li class="ellipsis" data-id="${id}">${buyerName}</li>
+</script>
+<!-- 供应商 -->
+<script type="text/x-jquery-tmpl" id="supplier-list-data">
+	<li class="ellipsis" data-id="${id}">${supplierName}</li>
+</script>
+<script src="../seajs/2.1.1/sea.js"></script>
+<script>
+	seajs.config({
+	    base : '../dest/',
+	    alias: {
+	        'common' : 'common.js',
+	        'adapt' : 'adapt.js',
+	        'newbuy' : 'buy-newbuy.js',
+	    },
+	    preload: ['adapt']
+	});
+	seajs.use('newbuy',function( stock ){
+		stock.init()
+	});
+</script>
+</body>
+</html>

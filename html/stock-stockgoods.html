@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>商品库存管理</title>
+	<meta name="viewport" content="width=750,user-scalable=0,viewport-fit=contain"/>
+	<meta content="telephone=no, address=no" name="format-detection" />
+	<meta name="full-screen" content="yes">
+	<meta name="x5-fullscreen" content="true">
+	<link rel="stylesheet" type="text/css" href="../css/css.min.css"/>
+</head>
+<body>
+<div class="body">
+	<div class="weighed-page stock-stockgoods-page" modue-id="stock-stockgoods">
+		<div class="header-box">
+			<p class="content"><span class="arrow left"></span>商品库存管理<span class="add-newbuy" id="add-newbuy"></span></p>
+		</div>
+		<div class="content-box not-footer">
+			<div class="weighed-box">
+				<div class="search-box">
+					<p class="clearfix search-content"><input type="text" placeholder="按照商品名称搜索" class="search-input"><button class="search-btn">搜索</button></p>
+				</div>
+				<div class="weighed-content">
+					<ul id="stock_list-data-box"></ul>
+					<p class="loadMore">加载中...</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="buylistdetail-page" style="display:none">
+		<div class="header-box">
+			<p class="content"><span class="arrow left"></span>商品详情</p>
+		</div>
+		<div class="content-box not-footer">
+			<div class="buylistdetail-box">
+				<div class="buylistdetail-content" id="stocklistdetail-data-box"></div>
+			</div>
+		</div>
+	</div>
+
+	<div class="newbuylist-page" style="display:none">
+		<div class="header-box">
+			<p class="content"><span class="arrow left"></span>新建库存商品</p>
+		</div>
+		<div class="content-box not-footer">
+			<div class="newbuylist-box">
+				<div class="newbuylist-content">
+					<ul>
+						<li class="clearfix">
+							<span class="tit">城市站点</span>
+							<input type="text" placeholder="请选择站点" disabled="true" id="website-city">
+						</li>
+						<li class="clearfix pick mark" data-search="goods-list">
+							<span class="tit">商品名称</span>
+							<input type="text" placeholder="请选择商品" disabled="true">
+						</li>
+						<li class="clearfix">
+							<span class="tit" style="width:180px;">库存商品件数</span>
+							<input type="number" placeholder="请输入库存商品件数" id="json-outNum" style="width:430px;" name="outNum">
+							<span class="unit">件</span>
+						</li>
+						<li class="clearfix">
+							<span class="tit" style="width:180px;">库存商品重量</span>
+							<input type="number" placeholder="请输入库存商品重量" id="json-stockWeight" style="width:430px;" name="stockWeight">
+							<span class="unit">斤</span>
+						</li>
+						<li class="clearfix">
+							<span class="tit">采购价格</span>
+							<input type="number" placeholder="请输入采购价格" id="json-buyerPrice" name="buyerPrice">
+							<span class="unit">元</span>
+						</li>
+						<li class="clearfix mark">
+							<span class="tit" style="width:180px;">库存商品售价</span>
+							<input type="number" placeholder="请输入库存商品售价" style="width:430px;" id="json-price" name="price">
+							<span class="unit">元</span>
+						</li>
+						<li class="clearfix">
+							<span class="tit">备注</span>
+							<textarea placeholder="请输入需要的备注请输入需要的备注" id="json-note" name="note"></textarea>
+						</li>
+					</ul>
+					<p class="btn" id="submit-btn">保存</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="weighed-editor-page stock-stockgoods-city-page" style="display:none" data-btn="stock-stockgoods-city-page">
+		<div class="header-box">
+			<p class="content"><span class="arrow left"></span>城市调拨</p>
+		</div>
+		<div class="content-box not-footer">
+			<div class="weighed-editor-box">
+				<div class="content" id="stock-stockgoods-city-page-box"></div>
+			</div>
+		</div>
+	</div>
+	<div class="weighed-editor-page stock-stockgoods-inner-page" style="display:none" data-btn="stock-stockgoods-inner-page">
+		<div class="header-box">
+			<p class="content"><span class="arrow left"></span>内部调货</p>
+		</div>
+		<div class="content-box not-footer">
+			<div class="weighed-editor-box">
+				<div class="content" id="stock-stockgoods-inner-page-box"></div>
+			</div>
+		</div>
+	</div>
+	<div class="weighed-editor-page stock-stockgoods-modify-page" style="display:none" data-btn="stock-stockgoods-modify-page">
+		<div class="header-box">
+			<p class="content"><span class="arrow left"></span>修改</p>
+		</div>
+		<div class="content-box not-footer">
+			<div class="weighed-editor-box">
+				<div class="content" id="stock-stockgoods-modify-page-box"></div>
+			</div>
+		</div>
+	</div>
+	<div class="weighed-editor-page stock-stockgoods-return-page" style="display:none" data-btn="stock-stockgoods-return-page">
+		<div class="header-box">
+			<p class="content"><span class="arrow left"></span>退回供应商</p>
+		</div>
+		<div class="content-box not-footer">
+			<div class="weighed-editor-box">
+				<div class="content" id="stock-stockgoods-return-page-box"></div>
+			</div>
+		</div>
+	</div>
+	<div class="search-page" style="display:none;" module-id="searchlist">
+		<div class="header-box">
+			<p class="content"><span class="arrow left"></span><input type="text" placeholder="请输入搜索的商品名称" id="data-checkout"><button id="checkout-btn">搜索</button></p>
+		</div>
+		<div class="content-box not-footer">
+			<div class="search-box">
+				<div class="search-content">
+					<ul class="city-list" id="city-list-data-box" style="display:none" data-page="city"></ul>
+					<ul class="goods-list" id="goods-list-data-box" style="display:none" data-page="goods"></ul>
+					<ul class="buyer-list" id="buyer-list-data-box" style="display:none" data-page="buyer"></ul>
+					<ul class="supplier-list" id="supplier-list-data-box" style="display:none" data-page="supplier"></ul>
+					<p class="loadMore">加载中...</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</div>
+<div class="modal-box" id="modal-box">
+	<div class="content">
+		<p class="city-btn" data-link="stock-stockgoods-city-page"></p>
+		<p class="modify" data-link="stock-stockgoods-modify-page"></p>
+		<p class="inner-btn" data-link="stock-stockgoods-inner-page"></p>
+		<p class="return-btn" data-link="stock-stockgoods-return-page"></p>
+	</div>
+</div>
+<!-- 库存单列表 -->
+<script type="text/x-jquery-tmpl" id="stock_list-data">
+	<li class="list">
+		<p class="line-1 clearfix"><span class="goods-name ellipsis">${goodsName}</span><span class="date-time"></span></p>
+		<p class="line-2 clearfix">
+			<span class="ellipsis">库存件数:${stockNum}件</span>
+			<span class="ellipsis">库存重量:${stockWeight}斤</span>
+			<span class="ellipsis">采购价格:${buyPrice}元/斤</span>
+		</p>
+		<p class="line-3 clearfix">
+			<span>出售价格:${price}元</span>
+		</p>
+		<span class="btn"></span>
+	</li>
+</script>
+<!-- 库存商品详情 -->
+<script type="text/x-jquery-tmpl" id="stocklistdetail-data">
+	<p class="clearfix"><i>库存商品名称</i> <span>${goodsName}</span></p>
+	<p class="clearfix"><i>库存商品编码</i> <span>${goodsCode}</span></p>
+	<p class="clearfix"><i>昨日库存件数</i> <span>${yesNum+' 件'}</span></p>
+	<p class="clearfix"><i>昨日库存重量</i> <span>${yesWeight+' 斤'}</span></p>
+	<p class="clearfix"><i>库存总件数</i> <span>${stockNum+ ' 件'}</span></p>
+	<p class="clearfix"><i>库存总重量</i> <span>${stockWeight+' 斤'}</span></p>
+	<p class="clearfix"><i>采购价格</i> <span>${(buyPrice||'--')+' 元/件'}</span></p>
+	<p class="clearfix"><i>出售价格</i> <span>${(price||'--')+' 元/件'}</span></p>
+	<p class="clearfix"><i>商品总价额</i> <span>${(goodsMoney||'--')+' 元'}</span></p>
+	<p class="clearfix"><i>站点名称</i> <span>${websiteName||'--'}</span></p>
+	<p class="clearfix"><i>起始件数</i> <span>${startNum+' 件'}</span></p>
+	<p class="clearfix"><i>最大件数</i> <span>${endNum+' 件'}</span></p>
+	<p class="clearfix"><i>起始重量</i> <span>${startWeight+' 斤'}</span></p>
+	<p class="clearfix"><i>最大重量</i> <span>${endWeight+' 斤'}</span></p>
+	<p class="clearfix"><i>出库件数</i> <span>${outNum+' 件'}</span></p>
+	<p class="clearfix"><i>出库重量</i> <span>${outWeight+' 斤'}</span></p>
+	<p class="clearfix"><i>出库城市</i> <span>${outCity}</span></p>
+	<p class="clearfix"><i>备注</i> <span>${note}</span></p>
+</script>
+<!-- 城市站点 -->
+<script type="text/x-jquery-tmpl" id="city-list-data">
+	<li class="ellipsis" data-id="${websiteNode}">${websiteName}</li>
+</script>
+<!-- 采购商品 -->
+<script type="text/x-jquery-tmpl" id="goods-list-data">
+	<li class="ellipsis" data-id="${id}" data-goodsName="${goodsName}" data-goodsCode="${goodsCode}">${goodsName}</li>
+</script>
+<!-- 城市调拨冻结数据 -->
+<script type="text/x-jquery-tmpl" id="stock-stockgoods-city-page-data">
+	<div class="data-disabled">
+		<p class="clearfix"><i>商品名称</i> <span>${goodsName}</span></p>
+		<p class="clearfix"><i>库存总件数</i> <span>${stockNum}</span></p>
+	</div>
+	<div class="data-editor">
+		<ul>
+			<li class="clearfix">
+				<span class="tit" style="width:180px;">库存商品重量</span>
+				<input type="number" placeholder="请输入商品重量(斤)" value="${stockWeight}" style="width:430px;" class="serialize">
+				<span class="unit">斤</span>
+			</li>
+			<li class="clearfix">
+				<span class="tit">出库件数</span>
+				<input type="number" placeholder="请输入出库件数" value="${outNum}" class="serialize">
+				<span class="unit">件</span>
+			</li>
+			<li class="clearfix pick" data-url="city">
+				<span class="tit">目的城市</span>
+				<input type="text" placeholder="请选择目的城市" value="" disabled="true" id="dist-city">
+			</li>
+			<li class="clearfix">
+				<span class="tit">备注</span>
+				<textarea placeholder="请输入需要的备注" class="serialize"></textarea>
+			</li>
+		</ul>
+		<p class="btn stock-oparate-btn" style="margin-bottom:50px;">保存</p>
+	</div>
+</script>
+<!-- 内部调货冻结数据 -->
+<script type="text/x-jquery-tmpl" id="stock-stockgoods-inner-page-data">
+	<div class="data-disabled">
+		<p class="clearfix"><i>商品名称</i> <span>${goodsName}</span></p>
+		<p class="clearfix"><i>原商品重量</i> <span>${(stockWeight||'--')+' 件'}</span></p>
+		<p class="clearfix"><i>原商品件数</i> <span>${stockNum+' 件'}</span></p>
+	</div>
+	<div class="data-editor">
+		<ul>
+			<li class="clearfix pick" data-url="goods">
+				<span class="tit">内部调货商品</span>
+				<input type="text" placeholder="请选择内部调货商品" disabled="true" id="dist-goods" style="width:418px;">
+			</li>
+			<li style="display:none"><input type="text" value="stock_transfer" class="serialize" name="method"></li>
+
+			<li class="clearfix">
+				<span class="tit" style="width:210px;">原商品减少件数</span>
+				<input type="number" placeholder="请输入原商品减少件数" value="" class="serialize" name="outNum" style="width:390px;">
+				<span class="unit">件</span>
+			</li>
+			<li class="clearfix">
+				<span class="tit">调货增加件数</span>
+				<input type="number" placeholder="请输入内部调货件数" value="" class="serialize" name="transNum" style="width:390px;">
+				<span class="unit">件</span>
+			</li>
+			<li class="clearfix">
+				<span class="tit" style="width:210px;">原商品减少重量</span>
+				<input type="number" placeholder="请输入原商品减少重量" value="" class="serialize" name="outWeight" style="width:390px;">
+				<span class="unit">斤</span>
+			</li><li class="clearfix">
+				<span class="tit" style="width:210px;">调货增加重量</span>
+				<input type="number" placeholder="请输入调货增加重量" value="" class="serialize" name="transWeight" style="width:390px;">
+				<span class="unit">斤</span>
+			</li>
+
+			<li class="clearfix">
+				<span class="tit">备注</span>
+				<textarea placeholder="请输入需要的备注请输入需要的备注" value="" class="serialize" name="note" style="width:390px;">${note}</textarea>
+			</li>
+		</ul>
+		<p class="btn stock-oparate-btn" style="margin-bottom:50px;">保存</p>
+	</div>
+</script>
+<!-- 编辑冻结数据 -->
+<script type="text/x-jquery-tmpl" id="stock-stockgoods-modify-page-data">
+	<div class="data-disabled">
+		<p class="clearfix"><i>商品名称</i> <span>${goodsName}</span></p>
+	</div>
+	<div class="data-editor">
+		<ul>
+			<li class="clearfix">
+				<span class="tit">库存商品件数</span>
+				<input type="number" placeholder="请输入商品件数" value="${stockNum}" class="serialize" style="width:418px;">
+				<span class="unit">件</span>
+			</li>
+			<li class="clearfix">
+				<span class="tit">库存商品重量</span>
+				<input type="number" placeholder="请输入商品重量" value="${stockWeight}" class="serialize" style="width:418px;">
+				<span class="unit">斤</span>
+			</li>
+			<li class="clearfix">
+				<span class="tit">采购价格</span>
+				<input type="number" placeholder="请输入采购价格" value="${buyPrice}" class="serialize" style="width:390px;margin-right:25px;">
+				<span class="unit">元/斤</span>
+			</li>
+			<li class="clearfix">
+				<span class="tit">库存商品售价</span>
+				<input type="number" placeholder="请输入售价价格" value="${price}" class="serialize" style="width:390px;margin-right:25px;">
+				<span class="unit">元/斤</span>
+
+			</li>
+			<li class="clearfix">
+				<span class="tit">备注</span>
+				<textarea placeholder="请输入需要的备注请输入需要的备注" value="${note}" class="serialize" style="width:418px;">${note}</textarea>
+			</li>
+		</ul>
+		<p class="btn stock-oparate-btn" style="margin-bottom:50px;">保存</p>
+	</div>
+</script>
+<!--  退回给供应商-->
+<script type="text/x-jquery-tmpl" id="stock-stockgoods-return-page-data">
+	<div class="data-disabled">
+		<p class="clearfix"><i>商品名称</i> <span>${goodsName}</span></p>
+		<p class="clearfix"><i>库存商品件数</i> <span>${stockNum + '件'}</span></p>
+		<p class="clearfix"><i>库存商品重量</i> <span>${stockWeight + '斤'}</span></p>
+	</div>
+	<div class="data-editor">
+		<ul>
+			<li class="clearfix" style="display:none">
+				<span class="tit">id</span>
+				<input type="text" value="${id}" class="serialize" style="width:418px;" name="stockId">
+				<span class="unit">件</span>
+			</li>
+			<li class="clearfix" style="display:none">
+				<span class="tit">方法</span>
+				<input type="text" value="stock_to_supplier" class="serialize" style="width:418px;" name="method">
+				<span class="unit">件</span>
+			</li>
+			<li class="clearfix mark">
+				<span class="tit">退回件数</span>
+				<input type="number" placeholder="请输入退回件数" class="serialize" style="width:418px;" name="outNum">
+				<span class="unit">件</span>
+			</li>
+			<li class="clearfix">
+				<span class="tit">退回总重量</span>
+				<input type="number" placeholder="请输入重量" class="serialize" style="width:390px;margin-right:25px;" name="outWeight">
+				<span class="unit">斤</span>
+			</li>
+			<li class="clearfix">
+				<span class="tit">备注</span>
+				<textarea placeholder="请输入需要的备注请输入需要的备注" value="${note}" class="serialize" style="width:418px;" name="note">${note}</textarea>
+			</li>
+		</ul>
+		<p class="btn stock-oparate-btn" style="margin-bottom:50px;">保存</p>
+	</div>
+</script>
+<script src="../seajs/2.1.1/sea.js"></script>
+<script>
+	seajs.config({
+	    base : '../dest/',
+	    alias: {
+	        'common' : 'common.js',
+	        'adapt' : 'adapt.js',
+	        'stockgoods' : 'stockgoods.js'
+	    },
+	    preload: ['adapt']
+	});
+	seajs.use('stockgoods',function( stock ){
+		stock.init()
+	});
+</script>
+</body>
+</html>
+
